@@ -1,0 +1,37 @@
+{% extends 'generic/object_edit.html' %}
+{% load static %}
+{% load form_helpers %}
+
+{% render_errors form %}
+
+{% block title %}Vip {{ vip.name }} update pool {% endblock %}
+
+{% block tabs %}
+  <ul class="nav nav-tabs px-3">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="edit-form-tab" data-bs-toggle="tab" data-bs-target="#edit-form" type="button" role="tab" aria-controls="edit-form" aria-selected="true">
+        Select Pools
+      </button>
+    </li>
+  </ul>
+{% endblock tabs %}
+
+{% block content %}
+    <form action="." method="post">
+        {% csrf_token %}
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        <div class="row">
+            <div class="col col-md-6 offset-md-3">
+                <div class="field-group">
+                    {% render_form form %}
+                </div>
+            </div>
+        </div>
+        {% block buttons %}
+            <a class="btn btn-outline-danger" href="{{ return_url }}">Cancel</a>
+            <button type="submit" name="_add" class="btn btn-primary">Update Pools</button>
+        {% endblock buttons %}
+    </form>
+{% endblock %}
