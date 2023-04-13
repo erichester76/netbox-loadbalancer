@@ -1,0 +1,33 @@
+{% load helpers %}
+{% load render_table from django_tables2 %}
+
+<div class="card">
+  <h5 class="card-header">Related F5 Cluster</h5>
+  <div class="card-body">
+  {% if f5cluster %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Cluster</th>
+        <th>Describe</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cluster in f5cluster %}
+        <tr>
+          <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' cluster.pk %}">{{ cluster.name }}</a></td>
+          <td>{{ cluster.describe }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  {% else %}
+    <div class="text-muted">None</div>
+  {% endif %}
+  </div>
+</div>
+
+
+<td>{{ node.name }}</a></td>
+          

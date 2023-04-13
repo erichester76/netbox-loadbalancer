@@ -1,0 +1,62 @@
+{% extends 'generic/object.html' %}
+{% load render_table from django_tables2 %}
+
+{% block extra_controls %}
+  <a href="{% url 'plugins:netbox_loadbalancer:f5pool_add_nodes' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
+    <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Assign Nodes
+  </a>
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">F5 Pool</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Cluster</th>
+            <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' object.cluster.pk %}">{{ object.cluster }}</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">URI</th>
+            <td>{{ object.uri }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Vip Related</th>
+            {% if object.related_vip %}
+              <td>
+                {% for vip in object.related_vip%}
+                  <a href="{% url 'plugins:netbox_loadbalancer:f5virtualserver' vip.pk %}">{{ vip }} - {{ vip.ip.address.ip }}:{{ vip.port }}</a><br/>
+                {% endfor %}
+              </td>
+            {% else %}
+              <td></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th scope="row">Describe</th>
+            <td>{{ object.describe }}</td>
+          </tr>
+          </table>
+        </div>
+      </div>
+      {% include 'inc/panels/custom_fields.html' %}
+      {% include 'inc/panels/tags.html' %}
+      {% include 'inc/panels/comments.html' %}
+    </div>
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Nodes Related</h5>
+        <div class="card-body table-responsive">
+          {% render_table nodes_table %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

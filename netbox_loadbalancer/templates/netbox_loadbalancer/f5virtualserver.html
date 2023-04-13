@@ -1,0 +1,65 @@
+{% extends 'generic/object.html' %}
+{% load render_table from django_tables2 %}
+
+{% block extra_controls %}
+  <a href="{% url 'plugins:netbox_loadbalancer:f5virtualserver_add_pools' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
+    <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Update Pools
+  </a>
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">F5 VirtualServer</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th scope="row">Cluster</th>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' object.cluster.pk %}">{{ object.cluster }}</a></td>
+            </tr>
+            <tr>
+              <th scope="row">Name</th>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:f5virtualserver' object.pk %}">{{ object.name }}</a></td>
+            </tr>
+            <tr>
+              <th scope="row">IP</th>
+              <td><a href="{% url 'ipam:ipaddress' object.ip.pk %}">{{ object.ip }}</a></td>
+            </tr>
+            <tr>
+              <th scope="row">Port</th>
+              <td>{{ object.port }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Type</th>
+              <td>{{ object.vip_type }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Owner</th>
+              <td><a href="{% url 'tenancy:contact' object.owner.pk %}">{{ object.owner }}</a></td>
+            </tr>
+            <tr>
+              <th scope="row">Describe</th>
+              <td>{{ object.describe }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Status</th>
+              <td>{{ object.status }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% include 'inc/panels/custom_fields.html' %}
+      {% include 'inc/panels/tags.html' %}
+      {% include 'inc/panels/comments.html' %}
+    </div>
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Pools overview</h5>
+        <div class="card-body table-responsive">
+          {% render_table pools_table %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
