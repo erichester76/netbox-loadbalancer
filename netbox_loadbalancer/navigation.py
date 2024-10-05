@@ -1,5 +1,5 @@
-from extras.plugins import PluginMenuButton, PluginMenuItem
-from extras.plugins import PluginMenu, PluginMenuButton, PluginMenuItem
+from netbox.plugins import PluginMenuButton, PluginMenuItem
+from netbox.plugins import PluginMenu, PluginMenuButton, PluginMenuItem
 
 cluster_items = (
      PluginMenuItem(
