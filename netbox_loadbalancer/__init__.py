@@ -1,4 +1,4 @@
-from extras.plugins import PluginConfig
+from netbox.plugins import PluginConfig
 
 class NetboxLoadBalancerConfig(PluginConfig):
     name = 'netbox_loadbalancer'
