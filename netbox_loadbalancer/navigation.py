@@ -51,7 +51,7 @@ cluster_items = (
 )
 
 menu = PluginMenu(
-    label="Load Balancer",
+    label="Load Balancing",
     groups=(("Load Balancing", cluster_items),),
     icon_class="mdi mdi-lan",
 )
