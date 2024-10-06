@@ -54,31 +54,7 @@ vips_pool_items = (
 )
 
 menu = PluginMenu(
-    label="F5 Manager",
-    groups=(("Cluster", cluster_items), ("LoadBalance", vips_pool_items),),
+    label="Load Balancer",
+    groups=(("Clusters", cluster_items), ("LoadBalance", vips_pool_items),),
     icon_class="mdi mdi-lan",
 )
-
-# menu_items = (
-#     PluginMenuItem(
-#         link='plugins:huytm:huytm_list',
-#         link_text='Storage Lists'
-#     ),
-#     PluginMenuItem(
-#         link='plugins:huytm:huytm_add',
-#         link_text='Storage Add'
-#     ),
-# )
-
-# PluginMenuItem(
-#         link="plugins:huytm:huytm_list",
-#         link_text="Storage Lists",
-#         buttons=(
-#             PluginMenuButton(
-#                 link="plugins:huytm:huytm_add",
-#                 title="Add",
-#                 icon_class="mdi mdi-plus-thick",
-#                 color='green',
-#             ),
-#         ),
-# )
