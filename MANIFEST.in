@@ -1,1 +1,1 @@
-recursive-include f5manager/templates *
+recursive-include netbox-loadbalancer/templates *
