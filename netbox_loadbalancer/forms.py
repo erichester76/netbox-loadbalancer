@@ -48,7 +48,7 @@ class F5VirtualServerForm(NetBoxModelForm):
         model = F5VirtualServer
         fields = ('cluster', 'name', 'ip', 'port', 'protocol', 'status','owner', 'vip_type', 'tags', 'describe', 'comments')
 
-class F5VirtualServerAddPoolsForm(BootstrapMixin, forms.Form):
+class F5VirtualServerAddPoolsForm(forms.Form):
     cluster = forms.CharField(
         disabled=True,
         required=False
@@ -120,7 +120,7 @@ class F5PoolForm(NetBoxModelForm):
         fields = ('cluster', 'name', 'vip', 'uri', 'status', 'tags', 'describe', 'comments')
 
 
-class F5PoolAddNodesForm(BootstrapMixin, forms.Form):
+class F5PoolAddNodesForm(forms.Form):
     cluster = forms.CharField(
         disabled=True,
         required=False
