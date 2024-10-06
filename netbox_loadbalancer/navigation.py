@@ -14,9 +14,6 @@ cluster_items = (
             ),
         ),
     ),
-)
-
-vips_pool_items = (
     PluginMenuItem(
         link="plugins:netbox_loadbalancer:f5virtualserver_list",
         link_text="Virtual Servers",
@@ -55,6 +52,6 @@ vips_pool_items = (
 
 menu = PluginMenu(
     label="Load Balancer",
-    groups=(("Clusters", cluster_items), ("LoadBalance", vips_pool_items),),
+    groups=(("Load Balancing", cluster_items),),
     icon_class="mdi mdi-lan",
 )
