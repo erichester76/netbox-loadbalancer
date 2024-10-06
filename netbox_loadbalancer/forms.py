@@ -5,7 +5,7 @@ from virtualization.models.virtualmachines import VirtualMachine
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, DynamicModelMultipleChoiceField
 from .models import F5Cluster, F5VirtualServer, F5Pool, F5PoolNode
-from utilities.forms import ConfirmationForm, BootstrapMixin
+from utilities.forms import ConfirmationForm
 
 class F5ClusterForm(NetBoxModelForm):
     physical_device = DynamicModelMultipleChoiceField(
