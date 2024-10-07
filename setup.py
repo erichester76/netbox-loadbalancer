@@ -15,7 +15,7 @@ setup(
     },
     entry_points={
         'netbox_plugins': [
-            'netbox_loadbalancer = nnetbox_loadbalancer:Plugin',
+            'netbox_loadbalancer = netbox_loadbalancer:Plugin',
         ],
     },
 )
