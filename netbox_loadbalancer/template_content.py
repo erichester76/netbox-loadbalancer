@@ -5,7 +5,7 @@ class F5PoolNodeExtension(PluginTemplateExtension):
     def left_page(self):
         object = self.context.get('object')
         f5poolnode = F5PoolNode.objects.filter(**{self.kind:object})
-        return self.render('netbox_loadbalancer/inc/f5poolnode_info.html', extra_context={
+        return self.render('netbox_loadbalancer/f5poolnode.html', extra_context={
             'f5poolnode': f5poolnode,
         })
         
