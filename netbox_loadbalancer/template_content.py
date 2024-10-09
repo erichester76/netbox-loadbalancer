@@ -13,7 +13,7 @@ class F5DeviceClusterExtension(PluginTemplateExtension):
     def left_page(self):
         object = self.context.get('object')
         f5cluster = F5Cluster.objects.filter(**{self.kind:object})
-        return self.render('netbox_loadbalancer/inc/f5devicecluster_info.html', extra_context={
+        return self.render('netbox_loadbalancer/f5devicecluster.html', extra_context={
             'f5cluster': f5cluster,
         })
         
