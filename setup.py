@@ -11,7 +11,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     package_data={
-        'netbox_loadbalancer': ['templates/*'],
+        'netbox_loadbalancer': ['templates/**'],
     },
     entry_points={
         'netbox_plugins': [
