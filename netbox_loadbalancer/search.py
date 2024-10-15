@@ -1,10 +1,10 @@
 from netbox.search import SearchIndex, register_search
-from .models import F5Cluster, F5VirtualServer, F5Pool, F5PoolNode
+from .models import LBCluster, LBVirtualServer, LBPool, LBPoolNode
 
 
 @register_search
-class F5ClusterIndex(SearchIndex):
-    model = F5Cluster
+class LBClusterIndex(SearchIndex):
+    model = LBCluster
     fields = (
         ('name', 100),
         ('physical_device', 200),
@@ -14,8 +14,8 @@ class F5ClusterIndex(SearchIndex):
 
 
 @register_search
-class F5VirtualServerIndex(SearchIndex):
-    model = F5VirtualServer
+class LBVirtualServerIndex(SearchIndex):
+    model = LBVirtualServer
     fields = (
         ('name', 100),
         ('cluster', 200),
@@ -30,8 +30,8 @@ class F5VirtualServerIndex(SearchIndex):
 
 
 @register_search
-class F5PoolIndex(SearchIndex):
-    model = F5Pool
+class LBPoolIndex(SearchIndex):
+    model = LBPool
     fields = (
         ('name', 100),
         ('vip', 100),
@@ -42,8 +42,8 @@ class F5PoolIndex(SearchIndex):
     )
 
 @register_search
-class F5PoolNodeIndex(SearchIndex):
-    model = F5PoolNode
+class LBPoolNodeIndex(SearchIndex):
+    model = LBPoolNode
     fields = (
         ('name', 100),
         ('pool', 100),

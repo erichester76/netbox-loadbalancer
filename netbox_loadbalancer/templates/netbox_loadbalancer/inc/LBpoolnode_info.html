@@ -2,9 +2,9 @@
 {% load render_table from django_tables2 %}
 
 <div class="card">
-  <h5 class="card-header">Related F5 Nodes</h5>
+  <h5 class="card-header">Related LB Nodes</h5>
   <div class="card-body">
-  {% if f5poolnode %}
+  {% if LBpoolnode %}
   <table class="table table-hover">
     <thead>
       <tr>
@@ -15,9 +15,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for node in f5poolnode %}
+      {% for node in LBpoolnode %}
         <tr>
-          <td><a href="{% url 'plugins:netbox_loadbalancer:f5poolnode' node.pk %}">{{ node.name }}</a></td>
+          <td><a href="{% url 'plugins:netbox_loadbalancer:LBpoolnode' node.pk %}">{{ node.name }}</a></td>
           <td><a href="{% url 'ipam:ipaddress' node.physical_device.primary_ip4_id %}">{{ node.physical_device.primary_ip4 }}</a></td>
           <td>{{ node.port }}</td>
           <td>{{ node.status }}</td>

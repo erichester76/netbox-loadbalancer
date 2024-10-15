@@ -5,62 +5,62 @@ from . import models, views
 
 urlpatterns = [
     
-    #F5Cluster
-    path('clusters/', views.F5ClusterListView.as_view(), name='f5cluster_list'),
-    path('clusters/add/', views.F5ClusterEditView.as_view(), name='f5cluster_add'),
-    path('clusters/<int:pk>/', views.F5ClusterView.as_view(), name='f5cluster'),
-    path('clusters/<int:pk>/edit/', views.F5ClusterEditView.as_view(), name='f5cluster_edit'),
-    path('clusters/<int:pk>/delete/', views.F5ClusterDeleteView.as_view(), name='f5cluster_delete'),
-    path('clusters/delete/', views.F5ClusterBulkDeleteView.as_view(), name='f5cluster_bulk_delete'),
-    path('clusters/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='f5cluster_changelog', kwargs={
-        'model': models.F5Cluster
+    #LBCluster
+    path('clusters/', views.LBClusterListView.as_view(), name='LBcluster_list'),
+    path('clusters/add/', views.LBClusterEditView.as_view(), name='LBcluster_add'),
+    path('clusters/<int:pk>/', views.LBClusterView.as_view(), name='LBcluster'),
+    path('clusters/<int:pk>/edit/', views.LBClusterEditView.as_view(), name='LBcluster_edit'),
+    path('clusters/<int:pk>/delete/', views.LBClusterDeleteView.as_view(), name='LBcluster_delete'),
+    path('clusters/delete/', views.LBClusterBulkDeleteView.as_view(), name='LBcluster_bulk_delete'),
+    path('clusters/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='LBcluster_changelog', kwargs={
+        'model': models.LBCluster
     }),
     
-    path('clusters/<int:pk>/devices/', views.F5ClusterDevicesView.as_view(), name='f5cluster_devices'),
-    path('clusters/<int:pk>/virtualdevices/', views.F5ClusterVirtualDevicesView.as_view(), name='f5cluster_virtualdevices'),
-    path('clusters/<int:pk>/vips/', views.F5ClusterVipsView.as_view(), name='f5cluster_vips'),
-    path('clusters/<int:pk>/pools/', views.F5ClusterPoolsView.as_view(), name='f5cluster_pools'),
-    path('clusters/<int:pk>/nodes/', views.F5ClusterNodesView.as_view(), name='f5cluster_nodes'),
+    path('clusters/<int:pk>/devices/', views.LBClusterDevicesView.as_view(), name='LBcluster_devices'),
+    path('clusters/<int:pk>/virtualdevices/', views.LBClusterVirtualDevicesView.as_view(), name='LBcluster_virtualdevices'),
+    path('clusters/<int:pk>/vips/', views.LBClusterVipsView.as_view(), name='LBcluster_vips'),
+    path('clusters/<int:pk>/pools/', views.LBClusterPoolsView.as_view(), name='LBcluster_pools'),
+    path('clusters/<int:pk>/nodes/', views.LBClusterNodesView.as_view(), name='LBcluster_nodes'),
     
-    # F5VirtualServer
-    path('vips/', views.F5VirtualServerListView.as_view(), name='f5virtualserver_list'),
-    path('vips/add/', views.F5VirtualServerEditView.as_view(), name='f5virtualserver_add'),
-    path('vips/<int:pk>/', views.F5VirtualServerView.as_view(), name='f5virtualserver'),
-    path('vips/<int:pk>/edit/', views.F5VirtualServerEditView.as_view(), name='f5virtualserver_edit'),
-    path('vips/<int:pk>/delete/', views.F5VirtualServerDeleteView.as_view(), name='f5virtualserver_delete'),
-    path('vips/delete/', views.F5VirtualServerBulkDeleteView.as_view(), name='f5virtualserver_bulk_delete'),
-    path('vips/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='f5virtualserver_changelog', kwargs={
-        'model': models.F5VirtualServer
+    # LBVirtualServer
+    path('vips/', views.LBVirtualServerListView.as_view(), name='LBvirtualserver_list'),
+    path('vips/add/', views.LBVirtualServerEditView.as_view(), name='LBvirtualserver_add'),
+    path('vips/<int:pk>/', views.LBVirtualServerView.as_view(), name='LBvirtualserver'),
+    path('vips/<int:pk>/edit/', views.LBVirtualServerEditView.as_view(), name='LBvirtualserver_edit'),
+    path('vips/<int:pk>/delete/', views.LBVirtualServerDeleteView.as_view(), name='LBvirtualserver_delete'),
+    path('vips/delete/', views.LBVirtualServerBulkDeleteView.as_view(), name='LBvirtualserver_bulk_delete'),
+    path('vips/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='LBvirtualserver_changelog', kwargs={
+        'model': models.LBVirtualServer
     }),
     
-    path('vips/<int:pk>/pools/', views.F5VirtualServerPoolsView.as_view(), name='f5virtualserver_pools'),
-    path('vips/<int:pk>/pools/add/', views.F5VirtualServerAddPoolsView.as_view(), name='f5virtualserver_add_pools'),
-    path('vips/<int:pk>/pools/delete/', views.F5VirtualServerDeletePoolsView.as_view(), name='f5virtualserver_delete_pools'),
+    path('vips/<int:pk>/pools/', views.LBVirtualServerPoolsView.as_view(), name='LBvirtualserver_pools'),
+    path('vips/<int:pk>/pools/add/', views.LBVirtualServerAddPoolsView.as_view(), name='LBvirtualserver_add_pools'),
+    path('vips/<int:pk>/pools/delete/', views.LBVirtualServerDeletePoolsView.as_view(), name='LBvirtualserver_delete_pools'),
 
-    # F5Pool
-    path('pools/', views.F5PoolListView.as_view(), name='f5pool_list'),
-    path('pools/add/', views.F5PoolEditView.as_view(), name='f5pool_add'),
-    path('pools/<int:pk>/', views.F5PoolView.as_view(), name='f5pool'),
-    path('pools/<int:pk>/edit/', views.F5PoolEditView.as_view(), name='f5pool_edit'),
-    path('pools/<int:pk>/delete/', views.F5PoolDeleteView.as_view(), name='f5pool_delete'),
-    path('pools/delete/', views.F5PoolBulkDeleteView.as_view(), name='f5pool_bulk_delete'),
-    path('pools/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='f5pool_changelog', kwargs={
-        'model': models.F5Pool
+    # LBPool
+    path('pools/', views.LBPoolListView.as_view(), name='LBpool_list'),
+    path('pools/add/', views.LBPoolEditView.as_view(), name='LBpool_add'),
+    path('pools/<int:pk>/', views.LBPoolView.as_view(), name='LBpool'),
+    path('pools/<int:pk>/edit/', views.LBPoolEditView.as_view(), name='LBpool_edit'),
+    path('pools/<int:pk>/delete/', views.LBPoolDeleteView.as_view(), name='LBpool_delete'),
+    path('pools/delete/', views.LBPoolBulkDeleteView.as_view(), name='LBpool_bulk_delete'),
+    path('pools/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='LBpool_changelog', kwargs={
+        'model': models.LBPool
     }),
     
-    path('pools/<int:pk>/nodes/', views.F5PoolNodesView.as_view(), name='f5pool_nodes'),
-    path('pools/<int:pk>/nodes/add/', views.F5PoolAddNodesView.as_view(), name='f5pool_add_nodes'),
-    path('pools/<int:pk>/nodes/delete/', views.F5PoolDeleteNodesView.as_view(), name='f5pool_delete_nodes'),
+    path('pools/<int:pk>/nodes/', views.LBPoolNodesView.as_view(), name='LBpool_nodes'),
+    path('pools/<int:pk>/nodes/add/', views.LBPoolAddNodesView.as_view(), name='LBpool_add_nodes'),
+    path('pools/<int:pk>/nodes/delete/', views.LBPoolDeleteNodesView.as_view(), name='LBpool_delete_nodes'),
     
-    # F5PoolNode
-    path('nodes/', views.F5PoolNodeListView.as_view(), name='f5poolnode_list'),
-    path('nodes/add/', views.F5PoolNodeEditView.as_view(), name='f5poolnode_add'),
-    path('nodes/<int:pk>/', views.F5PoolNodeView.as_view(), name='f5poolnode'),
-    path('nodes/<int:pk>/edit/', views.F5PoolNodeEditView.as_view(), name='f5poolnode_edit'),
-    path('nodes/<int:pk>/delete/', views.F5PoolNodeDeleteView.as_view(), name='f5poolnode_delete'),
-    path('nodes/delete/', views.F5PoolNodeBulkDeleteView.as_view(), name='f5poolnode_bulk_delete'),
-    path('nodes/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='f5poolnode_changelog', kwargs={
-        'model': models.F5PoolNode
+    # LBPoolNode
+    path('nodes/', views.LBPoolNodeListView.as_view(), name='LBpoolnode_list'),
+    path('nodes/add/', views.LBPoolNodeEditView.as_view(), name='LBpoolnode_add'),
+    path('nodes/<int:pk>/', views.LBPoolNodeView.as_view(), name='LBpoolnode'),
+    path('nodes/<int:pk>/edit/', views.LBPoolNodeEditView.as_view(), name='LBpoolnode_edit'),
+    path('nodes/<int:pk>/delete/', views.LBPoolNodeDeleteView.as_view(), name='LBpoolnode_delete'),
+    path('nodes/delete/', views.LBPoolNodeBulkDeleteView.as_view(), name='LBpoolnode_bulk_delete'),
+    path('nodes/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='LBpoolnode_changelog', kwargs={
+        'model': models.LBPoolNode
     }),
 
 ]

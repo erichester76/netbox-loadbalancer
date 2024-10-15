@@ -2,33 +2,33 @@ from rest_framework import serializers
 
 from ipam.api.serializers import PrefixSerializer
 from netbox.api.serializers import NetBoxModelSerializer, WritableNestedSerializer
-from ..models import F5VirtualServer, F5Pool, F5Cluster, F5PoolNode
+from ..models import LBVirtualServer, LBPool, LBCluster, LBPoolNode
 
-class F5ClusterSerializer(NetBoxModelSerializer):
+class LBClusterSerializer(NetBoxModelSerializer):
     class Meta:
-        model = F5Cluster
+        model = LBCluster
         fields = [
             'id', 'name', 'physical_device', 'virtual_device', 'describe', 'display', 'comments'
         ]
 
-class F5VirtualServerSerializer(NetBoxModelSerializer):
+class LBVirtualServerSerializer(NetBoxModelSerializer):
     class Meta:
-        model = F5VirtualServer
+        model = LBVirtualServer
         fields = [
             'id', 'cluster', 'name', 'ip', 'port', 'vip_type', 'protocol', 'status', 'owner', 'describe', 'pools', 'display', 'comments'
         ]
 
-class F5PoolSerializer(NetBoxModelSerializer):
+class LBPoolSerializer(NetBoxModelSerializer):
     class Meta:
-        model = F5Pool
+        model = LBPool
         fields = [
-            'id', 'cluster', 'name', 'uri', 'describe', 'display', 'vip', 'status', 'f5_pool_node', 'comments'
+            'id', 'cluster', 'name', 'uri', 'describe', 'display', 'vip', 'status', 'LB_pool_node', 'comments'
         ]
 
 
-class F5PoolNodeSerializer(NetBoxModelSerializer):
+class LBPoolNodeSerializer(NetBoxModelSerializer):
     class Meta:
-        model = F5PoolNode
+        model = LBPoolNode
         fields = [
             'id', 'cluster', 'name', 'physical_device', 'virtual_device', 'port', 'pool', 'describe', 'display', 'status', 'comments'
         ]

@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='F5Cluster',
+            name='LBCluster',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True, null=True)),
@@ -29,16 +29,16 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200, unique=True)),
                 ('describe', models.TextField(blank=True)),
                 ('comments', models.TextField(blank=True)),
-                ('physical_device', models.ManyToManyField(blank=True, default=None, related_name='f5_cluster_physical_devices', to='dcim.device')),
+                ('physical_device', models.ManyToManyField(blank=True, default=None, related_name='LB_cluster_physical_devices', to='dcim.device')),
                 ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
-                ('virtual_device', models.ManyToManyField(blank=True, default=None, related_name='f5_cluster_virtual_devices', to='virtualization.virtualmachine')),
+                ('virtual_device', models.ManyToManyField(blank=True, default=None, related_name='LB_cluster_virtual_devices', to='virtualization.virtualmachine')),
             ],
             options={
                 'ordering': ('-pk',),
             },
         ),
         migrations.CreateModel(
-            name='F5Pool',
+            name='LBPool',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True, null=True)),
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(max_length=20)),
                 ('describe', models.TextField(blank=True)),
                 ('comments', models.TextField(blank=True)),
-                ('cluster', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='f5_pools', to='netbox_loadbalancer.f5cluster')),
+                ('cluster', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='LB_pools', to='netbox_loadbalancer.LBcluster')),
                 ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
             ],
             options={
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='F5VirtualServer',
+            name='LBVirtualServer',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True, null=True)),
@@ -70,9 +70,9 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(max_length=20)),
                 ('describe', models.TextField(blank=True)),
                 ('comments', models.TextField(blank=True)),
-                ('cluster', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='f5_vips', to='netbox_loadbalancer.f5cluster')),
-                ('ip', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='f5_vips', to='ipam.ipaddress')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='f5_owner', to='tenancy.contact')),
+                ('cluster', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='LB_vips', to='netbox_loadbalancer.LBcluster')),
+                ('ip', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='LB_vips', to='ipam.ipaddress')),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='LB_owner', to='tenancy.contact')),
                 ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
             ],
             options={
@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='F5PoolNode',
+            name='LBPoolNode',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
                 ('created', models.DateTimeField(auto_now_add=True, null=True)),
@@ -92,19 +92,19 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(max_length=20)),
                 ('describe', models.TextField(blank=True)),
                 ('comments', models.TextField(blank=True)),
-                ('cluster', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='f5_nodes', to='netbox_loadbalancer.f5cluster')),
-                ('physical_device', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='f5_pool_node_physical_devices', to='dcim.device')),
-                ('pool', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='f5_pool_node', to='netbox_loadbalancer.f5pool')),
+                ('cluster', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='LB_nodes', to='netbox_loadbalancer.LBcluster')),
+                ('physical_device', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='LB_pool_node_physical_devices', to='dcim.device')),
+                ('pool', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='LB_pool_node', to='netbox_loadbalancer.LBpool')),
                 ('tags', taggit.managers.TaggableManager(through='extras.TaggedItem', to='extras.Tag')),
-                ('virtual_device', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='f5_pool_node_virtual_devices', to='virtualization.virtualmachine')),
+                ('virtual_device', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='LB_pool_node_virtual_devices', to='virtualization.virtualmachine')),
             ],
             options={
                 'ordering': ('-pk',),
             },
         ),
         migrations.AddField(
-            model_name='f5pool',
+            model_name='LBpool',
             name='vip',
-            field=models.ManyToManyField(blank=True, default=None, related_name='pools', to='netbox_loadbalancer.f5virtualserver'),
+            field=models.ManyToManyField(blank=True, default=None, related_name='pools', to='netbox_loadbalancer.LBvirtualserver'),
         ),
     ]

@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
   {{ block.super }}
-  <li class="breadcrumb-item"><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' object.pk %}">{{ object.name }}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'plugins:netbox_loadbalancer:LBcluster' object.pk %}">{{ object.name }}</a></li>
 {% endblock %}
 {% block extra_controls %}
 

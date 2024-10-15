@@ -2,9 +2,9 @@
 {% load render_table from django_tables2 %}
 
 <div class="card">
-  <h5 class="card-header">Related F5 Cluster</h5>
+  <h5 class="card-header">Related LB Cluster</h5>
   <div class="card-body">
-  {% if f5cluster %}
+  {% if LBcluster %}
   <table class="table table-hover">
     <thead>
       <tr>
@@ -13,9 +13,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for cluster in f5cluster %}
+      {% for cluster in LBcluster %}
         <tr>
-          <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' cluster.pk %}">{{ cluster.name }}</a></td>
+          <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster' cluster.pk %}">{{ cluster.name }}</a></td>
           <td>{{ cluster.describe }}</td>
         </tr>
       {% endfor %}

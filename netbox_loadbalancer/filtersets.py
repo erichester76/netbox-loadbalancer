@@ -1,10 +1,10 @@
 from netbox.filtersets import NetBoxModelFilterSet
-from .models import F5Cluster, F5VirtualServer, F5Pool, F5PoolNode
+from .models import LBCluster, LBVirtualServer, LBPool, LBPoolNode
 
-class F5ClusterFilterSet(NetBoxModelFilterSet):
+class LBClusterFilterSet(NetBoxModelFilterSet):
 
     class Meta:
-        model = F5Cluster
+        model = LBCluster
         fields = ('name', 'physical_device', 'virtual_device', 'describe')
 
     def search(self, queryset, name, value):
@@ -12,10 +12,10 @@ class F5ClusterFilterSet(NetBoxModelFilterSet):
     
     list_display = ('pk', 'id', 'name', 'physical_device', 'virtual_device', 'describe')
 
-class F5VirtualServerFilterSet(NetBoxModelFilterSet):
+class LBVirtualServerFilterSet(NetBoxModelFilterSet):
 
     class Meta:
-        model = F5VirtualServer
+        model = LBVirtualServer
         fields = ('cluster', 'name', 'ip', 'port', 'vip_type', 'owner', 'describe')
 
     def search(self, queryset, name, value):
@@ -24,10 +24,10 @@ class F5VirtualServerFilterSet(NetBoxModelFilterSet):
     list_display = ('pk', 'id', 'name', 'ip', 'port', 'vip_type', 'owner', 'protocol', 'status', 'describe')
     
 
-class F5PoolFilterSet(NetBoxModelFilterSet):
+class LBPoolFilterSet(NetBoxModelFilterSet):
 
     class Meta:
-        model = F5Pool
+        model = LBPool
         fields = ('name', 'uri', 'describe', 'vip')
 
     def search(self, queryset, name, value):
@@ -36,10 +36,10 @@ class F5PoolFilterSet(NetBoxModelFilterSet):
     list_display = ('pk', 'id', 'name', 'uri', 'describe', 'vip', 'cluster', 'status')
     
 
-class F5PoolNodeFilterSet(NetBoxModelFilterSet):
+class LBPoolNodeFilterSet(NetBoxModelFilterSet):
 
     class Meta:
-        model = F5PoolNode
+        model = LBPoolNode
         fields = ('name', 'physical_device', 'virtual_device', 'port', 'pool', 'describe', 'cluster', 'status')
 
     def search(self, queryset, name, value):

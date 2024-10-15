@@ -5,11 +5,11 @@
 
 {% block breadcrumbs %}
   {{ block.super }}
-  <li class="breadcrumb-item"><a href="{% url 'plugins:netbox_loadbalancer:f5pool' object.pk %}">{{ object.name }}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'plugins:netbox_loadbalancer:LBpool' object.pk %}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block extra_controls %}
-  <a href="{% url 'plugins:netbox_loadbalancer:f5pool_add_nodes' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
+  <a href="{% url 'plugins:netbox_loadbalancer:LBpool_add_nodes' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
     <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Assign Nodes
   </a>
 {% endblock %}

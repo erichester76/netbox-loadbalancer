@@ -6,13 +6,13 @@ from tenancy.models.contacts import Contact
 from django.urls import reverse
 from django.utils.html import format_html
 
-class F5VirtualServerType(ChoiceSet):    
+class LBVirtualServerType(ChoiceSet):    
     CHOICES = [
        ('l4', 'LoadBalance Layer 4', 'indigo'),
        ('l7', 'LoadBalance Layer 7', 'green'),
     ]
 
-class F5VirtualProtocol(ChoiceSet):    
+class LBVirtualProtocol(ChoiceSet):    
     CHOICES = [
        ('http', 'http', 'green'),
        ('fastl4', 'fastl4', 'indigo'),
@@ -21,21 +21,21 @@ class F5VirtualProtocol(ChoiceSet):
        ('other', 'other', 'gray'),
     ]
 
-class F5VipStatus(ChoiceSet):
+class LBVipStatus(ChoiceSet):
     CHOICES = [
        ('up', 'up', 'green'),
        ('down', 'down', 'red'),
        ('disable', 'disable', 'gray'),
     ]
     
-class F5PoolStatus(ChoiceSet):
+class LBPoolStatus(ChoiceSet):
     CHOICES = [
        ('up', 'up', 'green'),
        ('down', 'down', 'red'),
        ('disable', 'disable', 'gray'),
     ]
 
-class F5PoolNodeStatus(ChoiceSet):
+class LBPoolNodeStatus(ChoiceSet):
     CHOICES = [
        ('up', 'up', 'green'),
        ('down', 'down', 'red'),
@@ -43,7 +43,7 @@ class F5PoolNodeStatus(ChoiceSet):
     ]
     
     
-class F5Cluster(NetBoxModel):
+class LBCluster(NetBoxModel):
     name = models.CharField(
         max_length=200,
         blank=False,
@@ -52,14 +52,14 @@ class F5Cluster(NetBoxModel):
     
     physical_device = models.ManyToManyField(
         to='dcim.Device', 
-        related_name='f5_cluster_physical_devices',
+        related_name='LB_cluster_physical_devices',
         blank=True,
         default=None
     )
         
     virtual_device = models.ManyToManyField(
         to='virtualization.VirtualMachine', 
-        related_name='f5_cluster_virtual_devices',
+        related_name='LB_cluster_virtual_devices',
         blank=True,
         default=None
     )
@@ -80,17 +80,17 @@ class F5Cluster(NetBoxModel):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('plugins:netbox_loadbalancer:f5cluster', args=[self.pk])
+        return reverse('plugins:netbox_loadbalancer:LBcluster', args=[self.pk])
 
     # @property
     # def cluster_device(self):
     #     return self.physical_device.count + self.virtual_device.count ## Not work ??
 
-class F5VirtualServer(NetBoxModel):
+class LBVirtualServer(NetBoxModel):
     cluster = models.ForeignKey(
-        to=F5Cluster,
+        to=LBCluster,
         on_delete=models.PROTECT,
-        related_name='f5_vips' 
+        related_name='LB_vips' 
     )
     
     name = models.CharField(
@@ -102,7 +102,7 @@ class F5VirtualServer(NetBoxModel):
     ip = models.ForeignKey(
         to=IPAddress,
         on_delete=models.PROTECT,
-        related_name='f5_vips'
+        related_name='LB_vips'
     )
     
     port = models.IntegerField(
@@ -112,25 +112,25 @@ class F5VirtualServer(NetBoxModel):
     vip_type = models.CharField(
         max_length=20,
         blank=True,
-        choices=F5VirtualServerType
+        choices=LBVirtualServerType
     )
     
     protocol = models.CharField(
         max_length=20,
         blank=False,
-        choices=F5VirtualProtocol
+        choices=LBVirtualProtocol
     )
         
     owner = models.ForeignKey(
         to=Contact,
         on_delete=models.PROTECT,
-        related_name='f5_owner'
+        related_name='LB_owner'
     )
     
     status = models.CharField(
         max_length=20,
         blank=False,
-        choices=F5VipStatus
+        choices=LBVipStatus
     )
     
     describe = models.TextField(
@@ -149,23 +149,23 @@ class F5VirtualServer(NetBoxModel):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('plugins:netbox_loadbalancer:f5virtualserver', args=[self.pk])
+        return reverse('plugins:netbox_loadbalancer:LBvirtualserver', args=[self.pk])
     
     def get_vip_type_color(self):
-        return F5VirtualServerType.colors.get(self.vip_type)
+        return LBVirtualServerType.colors.get(self.vip_type)
     
     def get_status_color(self):
-        return F5VipStatus.colors.get(self.status)
+        return LBVipStatus.colors.get(self.status)
     
     def get_protocol_color(self):
-        return F5VirtualProtocol.colors.get(self.protocol)
+        return LBVirtualProtocol.colors.get(self.protocol)
 
 
-class F5Pool(NetBoxModel):
+class LBPool(NetBoxModel):
     cluster = models.ForeignKey(
-        to=F5Cluster,
+        to=LBCluster,
         on_delete=models.PROTECT,
-        related_name='f5_pools' 
+        related_name='LB_pools' 
     )
     
     name = models.CharField(
@@ -181,14 +181,14 @@ class F5Pool(NetBoxModel):
     )
     
     vip = models.ManyToManyField(
-        to=F5VirtualServer, 
+        to=LBVirtualServer, 
         related_name='pools',
         blank=True,
         default=None
     )
     
     # vip = models.ForeignKey(
-    #     to=F5VirtualServer,
+    #     to=LBVirtualServer,
     #     blank=True, 
     #     null=True,
     #     related_name='pools',
@@ -198,7 +198,7 @@ class F5Pool(NetBoxModel):
     status = models.CharField(
         max_length=20,
         blank=False,
-        choices=F5PoolStatus
+        choices=LBPoolStatus
     )
     
     describe = models.TextField(
@@ -216,33 +216,33 @@ class F5Pool(NetBoxModel):
         return f'{self.name} ({self.uri})'
     
     def get_absolute_url(self):
-        return reverse('plugins:netbox_loadbalancer:f5pool', args=[self.pk])
+        return reverse('plugins:netbox_loadbalancer:LBpool', args=[self.pk])
     
     def get_status_color(self):
-        return F5PoolStatus.colors.get(self.status)
+        return LBPoolStatus.colors.get(self.status)
     
     @property
     def full_url(self):
         html_content = ''
         if self.vip.all():
             for vip in self.vip.all():
-                html_content += f'<a href="/plugins/f5-manager/vips/{vip.pk}/">{vip.ip.address.ip}:{vip.port}{self.uri}</a><br/>'
+                html_content += f'<a href="/plugins/LB-manager/vips/{vip.pk}/">{vip.ip.address.ip}:{vip.port}{self.uri}</a><br/>'
         return format_html(html_content)
     
     @property
     def related_node(self):
-        return self.f5_pool_node.all()
+        return self.LB_pool_node.all()
     
     @property
     def related_vip(self):
         return self.vip.all()
     
 
-class F5PoolNode(NetBoxModel):
+class LBPoolNode(NetBoxModel):
     cluster = models.ForeignKey(
-        to=F5Cluster,
+        to=LBCluster,
         on_delete=models.PROTECT,
-        related_name='f5_nodes' 
+        related_name='LB_nodes' 
     )
     
     name = models.CharField(
@@ -254,7 +254,7 @@ class F5PoolNode(NetBoxModel):
     physical_device = models.ForeignKey(
         to='dcim.Device', 
         on_delete=models.PROTECT,
-        related_name='f5_pool_node_physical_devices',
+        related_name='LB_pool_node_physical_devices',
         blank=True,
         null=True
     )
@@ -262,7 +262,7 @@ class F5PoolNode(NetBoxModel):
     virtual_device = models.ForeignKey(
         to='virtualization.VirtualMachine', 
         on_delete=models.PROTECT,
-        related_name='f5_pool_node_virtual_devices',
+        related_name='LB_pool_node_virtual_devices',
         blank=True,
         null=True
     )
@@ -272,8 +272,8 @@ class F5PoolNode(NetBoxModel):
     )
     
     pool = models.ForeignKey(
-        to=F5Pool,
-        related_name='f5_pool_node',
+        to=LBPool,
+        related_name='LB_pool_node',
         blank=True, 
         on_delete=models.PROTECT,
         null=True
@@ -282,7 +282,7 @@ class F5PoolNode(NetBoxModel):
     status = models.CharField(
         max_length=20,
         blank=False,
-        choices=F5PoolNodeStatus
+        choices=LBPoolNodeStatus
     )
     
     describe = models.TextField(
@@ -307,10 +307,10 @@ class F5PoolNode(NetBoxModel):
         return f'{self.name} ({ip}:{self.port})'
     
     def get_absolute_url(self):
-        return reverse('plugins:netbox_loadbalancer:f5poolnode', args=[self.pk])
+        return reverse('plugins:netbox_loadbalancer:LBpoolnode', args=[self.pk])
 
     def get_status_color(self):
-        return F5PoolNodeStatus.colors.get(self.status)
+        return LBPoolNodeStatus.colors.get(self.status)
     
     @property
     def ip(self):

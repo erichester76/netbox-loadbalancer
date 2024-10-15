@@ -5,9 +5,9 @@ from . import views
 app_name = 'netbox_loadbalancer'
 
 router = NetBoxRouter()
-router.register('clusters', views.F5ClusterViewSet)
-router.register('vips', views.F5VirtualServerViewSet)
-router.register('pools', views.F5PoolViewSet)
-router.register('nodes', views.F5PoolNodeViewSet)
+router.register('clusters', views.LBClusterViewSet)
+router.register('vips', views.LBVirtualServerViewSet)
+router.register('pools', views.LBPoolViewSet)
+router.register('nodes', views.LBPoolNodeViewSet)
 
 urlpatterns = router.urls

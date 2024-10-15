@@ -4,10 +4,10 @@ from dcim.models.devices import Device
 from virtualization.models.virtualmachines import VirtualMachine
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
 from utilities.forms.fields import CommentField, DynamicModelChoiceField, DynamicModelMultipleChoiceField
-from .models import F5Cluster, F5VirtualServer, F5Pool, F5PoolNode
+from .models import LBCluster, LBVirtualServer, LBPool, LBPoolNode
 from utilities.forms import ConfirmationForm
 
-class F5ClusterForm(NetBoxModelForm):
+class LBClusterForm(NetBoxModelForm):
     physical_device = DynamicModelMultipleChoiceField(
         queryset=Device.objects.all(),
         required=False
@@ -25,17 +25,17 @@ class F5ClusterForm(NetBoxModelForm):
     comments = CommentField()
     
     class Meta:
-        model = F5VirtualServer
+        model = LBVirtualServer
         fields = ('name', 'physical_device', 'virtual_device', 'tags', 'describe', 'comments')
 
 
-class F5VirtualServerForm(NetBoxModelForm):
+class LBVirtualServerForm(NetBoxModelForm):
     ip = DynamicModelChoiceField(
         queryset=IPAddress.objects.all()
     )
     
     cluster = DynamicModelChoiceField(
-        queryset=F5Cluster.objects.all()
+        queryset=LBCluster.objects.all()
     )
     
     describe = forms.CharField(
@@ -45,10 +45,10 @@ class F5VirtualServerForm(NetBoxModelForm):
     comments = CommentField()
     
     class Meta:
-        model = F5VirtualServer
+        model = LBVirtualServer
         fields = ('cluster', 'name', 'ip', 'port', 'protocol', 'status','owner', 'vip_type', 'tags', 'describe', 'comments')
 
-class F5VirtualServerAddPoolsForm(forms.Form):
+class LBVirtualServerAddPoolsForm(forms.Form):
     cluster = forms.CharField(
         disabled=True,
         required=False
@@ -80,7 +80,7 @@ class F5VirtualServerAddPoolsForm(forms.Form):
     )
     
     pools = DynamicModelMultipleChoiceField(
-        queryset=F5Pool.objects.all(),
+        queryset=LBPool.objects.all(),
         help_text="Select pools here"
     )
     
@@ -92,20 +92,20 @@ class F5VirtualServerAddPoolsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-class F5VirtualServerDeletePoolsForm(ConfirmationForm):
+class LBVirtualServerDeletePoolsForm(ConfirmationForm):
     pk = forms.ModelMultipleChoiceField(
-        queryset=F5Pool.objects.all(),
+        queryset=LBPool.objects.all(),
         widget=forms.MultipleHiddenInput()
     )
 
 
-class F5PoolForm(NetBoxModelForm):
+class LBPoolForm(NetBoxModelForm):
     cluster = DynamicModelChoiceField(
-        queryset=F5Cluster.objects.all()
+        queryset=LBCluster.objects.all()
     )
     
     vip = DynamicModelMultipleChoiceField(
-        queryset=F5VirtualServer.objects.all(),
+        queryset=LBVirtualServer.objects.all(),
         required=False
     )
     
@@ -116,11 +116,11 @@ class F5PoolForm(NetBoxModelForm):
     comments = CommentField()
     
     class Meta:
-        model = F5Pool
+        model = LBPool
         fields = ('cluster', 'name', 'vip', 'uri', 'status', 'tags', 'describe', 'comments')
 
 
-class F5PoolAddNodesForm(forms.Form):
+class LBPoolAddNodesForm(forms.Form):
     cluster = forms.CharField(
         disabled=True,
         required=False
@@ -137,7 +137,7 @@ class F5PoolAddNodesForm(forms.Form):
     )
     
     nodes = DynamicModelMultipleChoiceField(
-        queryset=F5PoolNode.objects.all(),
+        queryset=LBPoolNode.objects.all(),
         help_text="Select nodes here"
     )
     
@@ -150,16 +150,16 @@ class F5PoolAddNodesForm(forms.Form):
         super().__init__(*args, **kwargs)
 
 
-class F5PoolDeleteNodesForm(ConfirmationForm):
+class LBPoolDeleteNodesForm(ConfirmationForm):
     pk = forms.ModelMultipleChoiceField(
-        queryset=F5PoolNode.objects.all(),
+        queryset=LBPoolNode.objects.all(),
         widget=forms.MultipleHiddenInput()
     )
 
 
-class F5PoolNodeForm(NetBoxModelForm):
+class LBPoolNodeForm(NetBoxModelForm):
     cluster = DynamicModelChoiceField(
-        queryset=F5Cluster.objects.all()
+        queryset=LBCluster.objects.all()
     )
     
     physical_device = DynamicModelChoiceField(
@@ -177,19 +177,19 @@ class F5PoolNodeForm(NetBoxModelForm):
     )
     
     pool = DynamicModelChoiceField(
-        queryset=F5Pool.objects.all(),
+        queryset=LBPool.objects.all(),
         required=False
     )
     
     comments = CommentField()
     
     class Meta:
-        model = F5PoolNode
+        model = LBPoolNode
         fields = ('cluster', 'name', 'physical_device', 'virtual_device', 'port', 'pool', 'status', 'tags', 'describe', 'comments')
 
 ## Filter
-class F5ClusterFilterForm(NetBoxModelFilterSetForm):
-    model = F5Cluster
+class LBClusterFilterForm(NetBoxModelFilterSetForm):
+    model = LBCluster
     name = forms.CharField(
         required=False
     )
@@ -203,8 +203,8 @@ class F5ClusterFilterForm(NetBoxModelFilterSetForm):
         required=False
     )
 
-class F5VirtualServerFilterForm(NetBoxModelFilterSetForm):
-    model = F5VirtualServer
+class LBVirtualServerFilterForm(NetBoxModelFilterSetForm):
+    model = LBVirtualServer
     name = forms.CharField(
         required=False
     )
@@ -231,8 +231,8 @@ class F5VirtualServerFilterForm(NetBoxModelFilterSetForm):
         required=False
     )
 
-class F5PoolFilterForm(NetBoxModelFilterSetForm):
-    model = F5Pool
+class LBPoolFilterForm(NetBoxModelFilterSetForm):
+    model = LBPool
     name = forms.CharField(
         required=False
     )
@@ -246,8 +246,8 @@ class F5PoolFilterForm(NetBoxModelFilterSetForm):
         required=False
     )
     
-class F5PoolNodeFilterForm(NetBoxModelFilterSetForm):
-    model = F5PoolNode
+class LBPoolNodeFilterForm(NetBoxModelFilterSetForm):
+    model = LBPoolNode
     name = forms.CharField(
         required=False
     )

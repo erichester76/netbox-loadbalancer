@@ -5,12 +5,12 @@
   <div class="row mb-3">
     <div class="col col-md-6">
       <div class="card">
-        <h5 class="card-header">F5 VirtualServer</h5>
+        <h5 class="card-header">LB VirtualServer</h5>
         <div class="card-body">
           <table class="table table-hover attr-table">
             <tr>
               <th scope="row">Name</th>
-              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' object.pk %}">{{ object.name }}</a></td>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster' object.pk %}">{{ object.name }}</a></td>
             </tr>
             <tr>
               <th scope="row">Devices</th>
@@ -18,15 +18,15 @@
             </tr>
             <tr>
               <th scope="row">Vips</th>
-              <td>{{ object.f5_vips.count }}</td>
+              <td>{{ object.LB_vips.count }}</td>
             </tr>
             <tr>
               <th scope="row">Pools</th>
-              <td>{{ object.f5_pools.count }}</td>
+              <td>{{ object.LB_pools.count }}</td>
             </tr>
             <tr>
               <th scope="row">Nodes</th>
-              <td>{{ object.f5_nodes.count }}</td>
+              <td>{{ object.LB_nodes.count }}</td>
             </tr>
             </tr>
             <tr>
@@ -42,7 +42,7 @@
     </div>
     <div class="col col-md-6">
       <div class="card">
-        <h5 class="card-header">F5 Devices</h5>
+        <h5 class="card-header">LB Devices</h5>
         <div class="card-body">
           {% if physical_devices_table.objects_count != 0 %}
             <div class="card-body table-responsive">
@@ -57,21 +57,21 @@
         </div>
       </div>
       <div class="card">
-        <h5 class="card-header">F5 Vips</h5>
+        <h5 class="card-header">LB Vips</h5>
         <div class="card-body">
           {% render_table vip_table %}
         </div>
       </div>
 
       <div class="card">
-        <h5 class="card-header">F5 Pools</h5>
+        <h5 class="card-header">LB Pools</h5>
         <div class="card-body">
           {% render_table pool_table %}
         </div>
       </div>
 
       <div class="card">
-        <h5 class="card-header">F5 Nodes</h5>
+        <h5 class="card-header">LB Nodes</h5>
         <div class="card-body">
           {% render_table node_table %}
         </div>

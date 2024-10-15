@@ -5,11 +5,11 @@
 
 {% block breadcrumbs %}
   {{ block.super }}
-  <li class="breadcrumb-item"><a href="{% url 'plugins:netbox_loadbalancer:f5virtualserver' object.pk %}">{{ object.name }}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'plugins:netbox_loadbalancer:LBvirtualserver' object.pk %}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block extra_controls %}
-  <a href="{% url 'plugins:netbox_loadbalancer:f5virtualserver_add_pools' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
+  <a href="{% url 'plugins:netbox_loadbalancer:LBvirtualserver_add_pools' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
     <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Update Pools
   </a>
 {% endblock %}

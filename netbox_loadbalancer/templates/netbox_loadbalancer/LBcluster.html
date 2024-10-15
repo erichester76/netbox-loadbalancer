@@ -5,28 +5,28 @@
   <div class="row mb-3">
     <div class="col col-md-6">
       <div class="card">
-        <h5 class="card-header">F5 VirtualServer</h5>
+        <h5 class="card-header">LB VirtualServer</h5>
         <div class="card-body">
           <table class="table table-hover attr-table">
             <tr>
               <th scope="row">Name</th>
-              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' object.pk %}">{{ object.name }}</a></td>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster' object.pk %}">{{ object.name }}</a></td>
             </tr>
             <tr>
-              <th scope="row">F5 Devices</th>
-              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster_devices' object.pk %}">{{ object.physical_device.count|add:object.virtual_device.count }}</a></td>
+              <th scope="row">LB Devices</th>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster_devices' object.pk %}">{{ object.physical_device.count|add:object.virtual_device.count }}</a></td>
             </tr>
             <tr>
               <th scope="row">Vips</th>
-              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster_vips' object.pk %}">{{ object.f5_vips.count }}</a></td>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster_vips' object.pk %}">{{ object.LB_vips.count }}</a></td>
             </tr>
             <tr>
               <th scope="row">Pools</th>
-              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster_pools' object.pk %}">{{ object.f5_pools.count }}</a></td>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster_pools' object.pk %}">{{ object.LB_pools.count }}</a></td>
             </tr>
             <tr>
               <th scope="row">Nodes</th>
-              <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster_nodes' object.pk %}">{{ object.f5_nodes.count }}</a></td>
+              <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster_nodes' object.pk %}">{{ object.LB_nodes.count }}</a></td>
             </tr>
             </tr>
             <tr>

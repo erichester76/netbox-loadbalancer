@@ -2,7 +2,7 @@
 {% load render_table from django_tables2 %}
 
 {% block extra_controls %}
-  <a href="{% url 'plugins:netbox_loadbalancer:f5pool_add_nodes' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
+  <a href="{% url 'plugins:netbox_loadbalancer:LBpool_add_nodes' pk=object.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-primary btn-sm">
     <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Assign Nodes
   </a>
 {% endblock %}
@@ -11,12 +11,12 @@
   <div class="row mb-3">
     <div class="col col-md-6">
       <div class="card">
-        <h5 class="card-header">F5 Pool</h5>
+        <h5 class="card-header">LB Pool</h5>
         <div class="card-body">
           <table class="table table-hover attr-table">
           <tr>
             <th scope="row">Cluster</th>
-            <td><a href="{% url 'plugins:netbox_loadbalancer:f5cluster' object.cluster.pk %}">{{ object.cluster }}</a></td>
+            <td><a href="{% url 'plugins:netbox_loadbalancer:LBcluster' object.cluster.pk %}">{{ object.cluster }}</a></td>
           </tr>
           <tr>
             <th scope="row">Name</th>
@@ -31,7 +31,7 @@
             {% if object.related_vip %}
               <td>
                 {% for vip in object.related_vip%}
-                  <a href="{% url 'plugins:netbox_loadbalancer:f5virtualserver' vip.pk %}">{{ vip }} - {{ vip.ip.address.ip }}:{{ vip.port }}</a><br/>
+                  <a href="{% url 'plugins:netbox_loadbalancer:LBvirtualserver' vip.pk %}">{{ vip }} - {{ vip.ip.address.ip }}:{{ vip.port }}</a><br/>
                 {% endfor %}
               </td>
             {% else %}

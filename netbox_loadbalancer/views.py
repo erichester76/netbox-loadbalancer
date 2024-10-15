@@ -14,12 +14,12 @@ from virtualization.tables.virtualmachines import VirtualMachineTable
 from . import filtersets, forms, models, tables
 
 #
-# F5Clusterviews
+# LBClusterviews
 #
 
-@register_model_view(models.F5Cluster, 'devices')
-class F5ClusterDevicesView(generic.ObjectChildrenView):
-    queryset = models.F5Cluster.objects.all()
+@register_model_view(models.LBCluster, 'devices')
+class LBClusterDevicesView(generic.ObjectChildrenView):
+    queryset = models.LBCluster.objects.all()
     child_model = Device
     table = DeviceTable
     template_name = 'netbox_loadbalancer_tab_view/cluster_devices.html'
@@ -36,9 +36,9 @@ class F5ClusterDevicesView(generic.ObjectChildrenView):
         )
 
 
-@register_model_view(models.F5Cluster, 'virtualdevices')
-class F5ClusterVirtualDevicesView(generic.ObjectChildrenView):
-    queryset = models.F5Cluster.objects.all()
+@register_model_view(models.LBCluster, 'virtualdevices')
+class LBClusterVirtualDevicesView(generic.ObjectChildrenView):
+    queryset = models.LBCluster.objects.all()
     child_model = VirtualMachine
     table = VirtualMachineTable
     template_name = 'netbox_loadbalancer_tab_view/cluster_virtualdevices.html'
@@ -55,65 +55,65 @@ class F5ClusterVirtualDevicesView(generic.ObjectChildrenView):
         )
 
 
-@register_model_view(models.F5Cluster, 'vips')
-class F5ClusterVipsView(generic.ObjectChildrenView):
-    queryset = models.F5Cluster.objects.all()
-    child_model = models.F5VirtualServer
-    table = tables.F5VirtualServerTable
+@register_model_view(models.LBCluster, 'vips')
+class LBClusterVipsView(generic.ObjectChildrenView):
+    queryset = models.LBCluster.objects.all()
+    child_model = models.LBVirtualServer
+    table = tables.LBVirtualServerTable
     template_name = 'netbox_loadbalancer_tab_view/cluster_pools.html'
     tab = ViewTab(
         label=_('Virtual Endpoint (Vip)'),
-        badge=lambda obj: obj.f5_vips.count(),
+        badge=lambda obj: obj.LB_vips.count(),
         weight=300
     )
 
     def get_children(self, request, parent):
-        vip_list = parent.f5_vips.all()
-        return models.F5VirtualServer.objects.restrict(request.user, 'view').filter(
+        vip_list = parent.LB_vips.all()
+        return models.LBVirtualServer.objects.restrict(request.user, 'view').filter(
             pk__in=[vip.pk for vip in vip_list]
         )
 
 
-@register_model_view(models.F5Cluster, 'pools')
-class F5ClusterPoolsView(generic.ObjectChildrenView):
-    queryset = models.F5Cluster.objects.all()
-    child_model = models.F5Pool
-    table = tables.F5PoolTable
+@register_model_view(models.LBCluster, 'pools')
+class LBClusterPoolsView(generic.ObjectChildrenView):
+    queryset = models.LBCluster.objects.all()
+    child_model = models.LBPool
+    table = tables.LBPoolTable
     template_name = 'netbox_loadbalancer_tab_view/cluster_pools.html'
     tab = ViewTab(
         label=_('Pools'),
-        badge=lambda obj: obj.f5_pools.count(),
+        badge=lambda obj: obj.LB_pools.count(),
         weight=400
     )
 
     def get_children(self, request, parent):
-        pool_list = parent.f5_pools.all()
-        return models.F5Pool.objects.restrict(request.user, 'view').filter(
+        pool_list = parent.LB_pools.all()
+        return models.LBPool.objects.restrict(request.user, 'view').filter(
             pk__in=[pool.pk for pool in pool_list]
         )
         
 
-@register_model_view(models.F5Cluster, 'nodes')
-class F5ClusterNodesView(generic.ObjectChildrenView):
-    queryset = models.F5Cluster.objects.all()
-    child_model = models.F5PoolNode
-    table = tables.F5PoolNodeTable
+@register_model_view(models.LBCluster, 'nodes')
+class LBClusterNodesView(generic.ObjectChildrenView):
+    queryset = models.LBCluster.objects.all()
+    child_model = models.LBPoolNode
+    table = tables.LBPoolNodeTable
     template_name = 'netbox_loadbalancer_tab_view/cluster_nodes.html'
     tab = ViewTab(
         label=_('Nodes'),
-        badge=lambda obj: obj.f5_nodes.count(),
+        badge=lambda obj: obj.LB_nodes.count(),
         weight=500
     )
 
     def get_children(self, request, parent):
-        node_list = parent.f5_nodes.all()
-        return models.F5PoolNode.objects.restrict(request.user, 'view').filter(
+        node_list = parent.LB_nodes.all()
+        return models.LBPoolNode.objects.restrict(request.user, 'view').filter(
             pk__in=[node.pk for node in node_list]
         )
 
 
-class F5ClusterView(generic.ObjectView):
-    queryset = models.F5Cluster.objects.all()
+class LBClusterView(generic.ObjectView):
+    queryset = models.LBCluster.objects.all()
     
     # def get_extra_context(self, request, instance):
     #     physical_devices_table = DeviceTable(instance.physical_device.all())
@@ -122,13 +122,13 @@ class F5ClusterView(generic.ObjectView):
     #     virtual_devices_table = VirtualMachineTable(instance.virtual_device.all())
     #     virtual_devices_table.configure(request)
                 
-    #     vip_table = tables.F5VirtualServerTable(instance.f5_vips.all())
+    #     vip_table = tables.LBVirtualServerTable(instance.LB_vips.all())
     #     vip_table.configure(request)
         
-    #     pool_table = tables.F5PoolTable(instance.f5_pools.all())
+    #     pool_table = tables.LBPoolTable(instance.LB_pools.all())
     #     pool_table.configure(request)
         
-    #     node_table = tables.F5PoolNodeTable(instance.f5_nodes.all())
+    #     node_table = tables.LBPoolNodeTable(instance.LB_nodes.all())
     #     node_table.configure(request)
         
     #     return {
@@ -140,41 +140,41 @@ class F5ClusterView(generic.ObjectView):
     #     }
 
 
-class F5ClusterListView(generic.ObjectListView):
-    queryset = models.F5Cluster.objects.annotate(
+class LBClusterListView(generic.ObjectListView):
+    queryset = models.LBCluster.objects.annotate(
         physical_device_count=Count('physical_device', distinct=True),
     ).annotate(
         virtual_device_count=Count('virtual_device', distinct=True)
     )
 
-    table = tables.F5ClusterTable
-    filterset = filtersets.F5ClusterFilterSet
-    filterset_form = forms.F5ClusterFilterForm
+    table = tables.LBClusterTable
+    filterset = filtersets.LBClusterFilterSet
+    filterset_form = forms.LBClusterFilterForm
 
 
-class F5ClusterEditView(generic.ObjectEditView):
-    queryset = models.F5Cluster.objects.all()
-    form = forms.F5ClusterForm
+class LBClusterEditView(generic.ObjectEditView):
+    queryset = models.LBCluster.objects.all()
+    form = forms.LBClusterForm
 
 
-class F5ClusterDeleteView(generic.ObjectDeleteView):
-    queryset = models.F5Cluster.objects.all()
+class LBClusterDeleteView(generic.ObjectDeleteView):
+    queryset = models.LBCluster.objects.all()
 
 
-class F5ClusterBulkDeleteView(generic.BulkDeleteView):
-    queryset = models.F5Cluster.objects.all()
-    filterset = filtersets.F5ClusterFilterSet
-    table = tables.F5ClusterTable
+class LBClusterBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.LBCluster.objects.all()
+    filterset = filtersets.LBClusterFilterSet
+    table = tables.LBClusterTable
 
 
 #
-# F5VirtualServer views
+# LBVirtualServer views
 #
 
-class F5VirtualServerView(generic.ObjectView):
-    queryset = models.F5VirtualServer.objects.all()
+class LBVirtualServerView(generic.ObjectView):
+    queryset = models.LBVirtualServer.objects.all()
     def get_extra_context(self, request, instance):
-        table = tables.F5PoolTable(instance.pools.all())
+        table = tables.LBPoolTable(instance.pools.all())
         table.configure(request)
 
         return {
@@ -182,36 +182,36 @@ class F5VirtualServerView(generic.ObjectView):
         }
 
 
-class F5VirtualServerListView(generic.ObjectListView):
-    queryset = models.F5VirtualServer.objects.annotate(
+class LBVirtualServerListView(generic.ObjectListView):
+    queryset = models.LBVirtualServer.objects.annotate(
         pool_count=Count('pools')
     )
-    queryset = models.F5VirtualServer.objects.all()
-    table = tables.F5VirtualServerTable
-    filterset = filtersets.F5VirtualServerFilterSet
-    filterset_form = forms.F5VirtualServerFilterForm
+    queryset = models.LBVirtualServer.objects.all()
+    table = tables.LBVirtualServerTable
+    filterset = filtersets.LBVirtualServerFilterSet
+    filterset_form = forms.LBVirtualServerFilterForm
 
 
-class F5VirtualServerEditView(generic.ObjectEditView):
-    queryset = models.F5VirtualServer.objects.all()
-    form = forms.F5VirtualServerForm
+class LBVirtualServerEditView(generic.ObjectEditView):
+    queryset = models.LBVirtualServer.objects.all()
+    form = forms.LBVirtualServerForm
 
 
-class F5VirtualServerDeleteView(generic.ObjectDeleteView):
-    queryset = models.F5VirtualServer.objects.all()
+class LBVirtualServerDeleteView(generic.ObjectDeleteView):
+    queryset = models.LBVirtualServer.objects.all()
 
 
-class F5VirtualServerBulkDeleteView(generic.BulkDeleteView):
-    queryset = models.F5VirtualServer.objects.all()
-    filterset = filtersets.F5VirtualServerFilterSet
-    table = tables.F5VirtualServerTable
+class LBVirtualServerBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.LBVirtualServer.objects.all()
+    filterset = filtersets.LBVirtualServerFilterSet
+    table = tables.LBVirtualServerTable
 
 
-@register_model_view(models.F5VirtualServer, 'pools')
-class F5VirtualServerPoolsView(generic.ObjectChildrenView):
-    queryset = models.F5VirtualServer.objects.all()
-    child_model = models.F5Pool
-    table = tables.F5PoolTable
+@register_model_view(models.LBVirtualServer, 'pools')
+class LBVirtualServerPoolsView(generic.ObjectChildrenView):
+    queryset = models.LBVirtualServer.objects.all()
+    child_model = models.LBPool
+    table = tables.LBPoolTable
     template_name = 'netbox_loadbalancer_tab_view/vip_pools.html'
     tab = ViewTab(
         label=_('Pool List'),
@@ -221,16 +221,16 @@ class F5VirtualServerPoolsView(generic.ObjectChildrenView):
 
     def get_children(self, request, parent):
         pool_list = parent.pools.all()
-        return models.F5Pool.objects.restrict(request.user, 'view').filter(
+        return models.LBPool.objects.restrict(request.user, 'view').filter(
             pk__in=[pool.pk for pool in pool_list]
         )
 
 
-@register_model_view(models.F5VirtualServer, 'add_pools', path='pools/add')
-class F5VirtualServerAddPoolsView(generic.ObjectEditView):
-    queryset = models.F5VirtualServer.objects.all()
-    form = forms.F5VirtualServerAddPoolsForm
-    template_name = 'netbox_loadbalancer/f5virtualserver_update_pools.html'
+@register_model_view(models.LBVirtualServer, 'add_pools', path='pools/add')
+class LBVirtualServerAddPoolsView(generic.ObjectEditView):
+    queryset = models.LBVirtualServer.objects.all()
+    form = forms.LBVirtualServerAddPoolsForm
+    template_name = 'netbox_loadbalancer/LBvirtualserver_update_pools.html'
 
     def get(self, request, pk):
         queryset = self.queryset.filter(pk=pk)
@@ -257,7 +257,7 @@ class F5VirtualServerAddPoolsView(generic.ObjectEditView):
         return render(request, self.template_name, {
             'vip': vip,
             'form': form,
-            'return_url': reverse('plugins:netbox_loadbalancer:f5virtualserver', kwargs={'pk': pk}),
+            'return_url': reverse('plugins:netbox_loadbalancer:LBvirtualserver', kwargs={'pk': pk}),
         })
 
     def post(self, request, pk):
@@ -287,11 +287,11 @@ class F5VirtualServerAddPoolsView(generic.ObjectEditView):
         })
 
 
-@register_model_view(models.F5VirtualServer, 'delete_pools', path='pools/delete')
-class F5VirtualServerDeletePoolsView(generic.ObjectEditView):
-    queryset = models.F5VirtualServer.objects.all()
-    form = forms.F5VirtualServerDeletePoolsForm
-    template_name = 'netbox_loadbalancer/f5virtualserver_delete_pools.html'
+@register_model_view(models.LBVirtualServer, 'delete_pools', path='pools/delete')
+class LBVirtualServerDeletePoolsView(generic.ObjectEditView):
+    queryset = models.LBVirtualServer.objects.all()
+    form = forms.LBVirtualServerDeletePoolsForm
+    template_name = 'netbox_loadbalancer/LBvirtualserver_delete_pools.html'
 
     def post(self, request, pk):
 
@@ -301,37 +301,37 @@ class F5VirtualServerDeletePoolsView(generic.ObjectEditView):
             form = self.form(request.POST)
             pool_pks = request.POST.getlist('pk')
             with transaction.atomic():
-                for pool in models.F5Pool.objects.filter(pk__in=pool_pks):
+                for pool in models.LBPool.objects.filter(pk__in=pool_pks):
                     vip.pools.remove(pool)
                     vip.save()
 
             messages.success(request, "Removed {} pools from {}".format(
                 len(pool_pks), vip
             ))
-            return redirect(reverse('plugins:netbox_loadbalancer:f5virtualserver_pools', kwargs={'pk': pk}))
+            return redirect(reverse('plugins:netbox_loadbalancer:LBvirtualserver_pools', kwargs={'pk': pk}))
         else:
             form = self.form(request.POST, initial={'pk': request.POST.getlist('pk')})
         pk_values = form.initial.get('pk', [])
-        selected_objects = models.F5Pool.objects.filter(pk__in=pk_values)
-        pool_table = tables.F5PoolTable(list(selected_objects), orderable=False)
+        selected_objects = models.LBPool.objects.filter(pk__in=pk_values)
+        pool_table = tables.LBPoolTable(list(selected_objects), orderable=False)
 
         return render(request, self.template_name, {
             'form': form,
             'parent_obj': vip,
             'table': pool_table,
             'obj_type_plural': 'pools',
-            'return_url': reverse('plugins:netbox_loadbalancer:f5virtualserver_pools', kwargs={'pk': pk})
+            'return_url': reverse('plugins:netbox_loadbalancer:LBvirtualserver_pools', kwargs={'pk': pk})
         })
         
 
 #
-# F5Pool views
+# LBPool views
 #
 
-class F5PoolView(generic.ObjectView):
-    queryset = models.F5Pool.objects.all()
+class LBPoolView(generic.ObjectView):
+    queryset = models.LBPool.objects.all()
     def get_extra_context(self, request, instance):
-        table = tables.F5PoolNodeTable(instance.f5_pool_node.all())
+        table = tables.LBPoolNodeTable(instance.LB_pool_node.all())
         table.configure(request)
 
         return {
@@ -339,59 +339,59 @@ class F5PoolView(generic.ObjectView):
         }   
 
 
-class F5PoolListView(generic.ObjectListView):
-    # queryset = models.F5Pool.objects.annotate(
-    #     node_count=Count('f5_pool_node')
+class LBPoolListView(generic.ObjectListView):
+    # queryset = models.LBPool.objects.annotate(
+    #     node_count=Count('LB_pool_node')
     # )
-    queryset = models.F5Pool.objects.all()
-    table = tables.F5PoolTable
-    filterset = filtersets.F5PoolFilterSet
-    filterset_form = forms.F5PoolFilterForm
+    queryset = models.LBPool.objects.all()
+    table = tables.LBPoolTable
+    filterset = filtersets.LBPoolFilterSet
+    filterset_form = forms.LBPoolFilterForm
 
 
-class F5PoolEditView(generic.ObjectEditView):
-    queryset = models.F5Pool.objects.all()
-    form = forms.F5PoolForm
+class LBPoolEditView(generic.ObjectEditView):
+    queryset = models.LBPool.objects.all()
+    form = forms.LBPoolForm
 
 
-class F5PoolDeleteView(generic.ObjectDeleteView):
-    queryset = models.F5Pool.objects.all()
+class LBPoolDeleteView(generic.ObjectDeleteView):
+    queryset = models.LBPool.objects.all()
 
 
-class F5PoolBulkDeleteView(generic.BulkDeleteView):
-    queryset = models.F5Pool.objects.all()
-    filterset = filtersets.F5PoolFilterSet
-    table = tables.F5PoolTable
+class LBPoolBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.LBPool.objects.all()
+    filterset = filtersets.LBPoolFilterSet
+    table = tables.LBPoolTable
 
-@register_model_view(models.F5Pool, 'nodes')
-class F5PoolNodesView(generic.ObjectChildrenView):
-    queryset = models.F5Pool.objects.all()
-    child_model = models.F5PoolNode
-    table = tables.F5PoolNodeTable
+@register_model_view(models.LBPool, 'nodes')
+class LBPoolNodesView(generic.ObjectChildrenView):
+    queryset = models.LBPool.objects.all()
+    child_model = models.LBPoolNode
+    table = tables.LBPoolNodeTable
     template_name = 'netbox_loadbalancer_tab_view/pool_nodes.html'
     tab = ViewTab(
         label=_('Nodes List'),
-        badge=lambda obj: obj.f5_pool_node.count(),
+        badge=lambda obj: obj.LB_pool_node.count(),
         weight=100
     )
 
     def get_children(self, request, parent):
-        node_list = parent.f5_pool_node.all()
-        return models.F5PoolNode.objects.restrict(request.user, 'view').filter(
+        node_list = parent.LB_pool_node.all()
+        return models.LBPoolNode.objects.restrict(request.user, 'view').filter(
             pk__in=[node.pk for node in node_list]
         )
 
 
-@register_model_view(models.F5Pool, 'add_nodes', path='nodes/add')
-class F5PoolAddNodesView(generic.ObjectEditView):
-    queryset = models.F5Pool.objects.all()
-    form = forms.F5PoolAddNodesForm
-    template_name = 'netbox_loadbalancer/f5pool_update_nodes.html'
+@register_model_view(models.LBPool, 'add_nodes', path='nodes/add')
+class LBPoolAddNodesView(generic.ObjectEditView):
+    queryset = models.LBPool.objects.all()
+    form = forms.LBPoolAddNodesForm
+    template_name = 'netbox_loadbalancer/LBpool_update_nodes.html'
 
     def get(self, request, pk):
         queryset = self.queryset.filter(pk=pk)
         pool = get_object_or_404(queryset)
-        nodes = pool.f5_pool_node.all()
+        nodes = pool.LB_pool_node.all()
         current_nodes = []
         if nodes:
             for node in nodes:
@@ -409,7 +409,7 @@ class F5PoolAddNodesView(generic.ObjectEditView):
         return render(request, self.template_name, {
             'pool': pool,
             'form': form,
-            'return_url': reverse('plugins:netbox_loadbalancer:f5pool', kwargs={'pk': pk}),
+            'return_url': reverse('plugins:netbox_loadbalancer:LBpool', kwargs={'pk': pk}),
         })
 
     def post(self, request, pk):
@@ -418,16 +418,16 @@ class F5PoolAddNodesView(generic.ObjectEditView):
         form = self.form(request.POST)
 
         if form.is_valid():
-            current_nodes = pool.f5_pool_node.all()
+            current_nodes = pool.LB_pool_node.all()
             # Remove current pools 
             if current_nodes:
                 for node in current_nodes:
-                    pool.f5_pool_node.remove(node)
+                    pool.LB_pool_node.remove(node)
                     
             # Add pool 
             new_data_node = form.cleaned_data['nodes']
             for newnode in new_data_node:
-                pool.f5_pool_node.add(newnode)
+                pool.LB_pool_node.add(newnode)
                 
             messages.success(request, f"Success update nodes for {pool.name}")
             return redirect(pool.get_absolute_url())
@@ -439,11 +439,11 @@ class F5PoolAddNodesView(generic.ObjectEditView):
         })
 
 
-@register_model_view(models.F5Pool, 'delete_nodes', path='nodes/delete')
-class F5PoolDeleteNodesView(generic.ObjectEditView):
-    queryset = models.F5Pool.objects.all()
-    form = forms.F5PoolDeleteNodesForm
-    template_name = 'netbox_loadbalancer/f5pool_delete_nodes.html'
+@register_model_view(models.LBPool, 'delete_nodes', path='nodes/delete')
+class LBPoolDeleteNodesView(generic.ObjectEditView):
+    queryset = models.LBPool.objects.all()
+    form = forms.LBPoolDeleteNodesForm
+    template_name = 'netbox_loadbalancer/LBpool_delete_nodes.html'
 
     def post(self, request, pk):
 
@@ -453,56 +453,56 @@ class F5PoolDeleteNodesView(generic.ObjectEditView):
             form = self.form(request.POST)
             node_pks = request.POST.getlist('pk')
             with transaction.atomic():
-                for node in models.F5PoolNode.objects.filter(pk__in=node_pks):
-                    pool.f5_pool_node.remove(node)
+                for node in models.LBPoolNode.objects.filter(pk__in=node_pks):
+                    pool.LB_pool_node.remove(node)
                     pool.save()
 
             messages.success(request, "Removed {} nodes from {}".format(
                 len(node_pks), pool
             ))
-            return redirect(reverse('plugins:netbox_loadbalancer:f5pool_nodes', kwargs={'pk': pk}))
+            return redirect(reverse('plugins:netbox_loadbalancer:LBpool_nodes', kwargs={'pk': pk}))
         else:
             form = self.form(request.POST, initial={'pk': request.POST.getlist('pk')})
         pk_values = form.initial.get('pk', [])
-        selected_objects = models.F5PoolNode.objects.filter(pk__in=pk_values)
-        node_table = tables.F5PoolNodeTable(list(selected_objects), orderable=False)
+        selected_objects = models.LBPoolNode.objects.filter(pk__in=pk_values)
+        node_table = tables.LBPoolNodeTable(list(selected_objects), orderable=False)
 
         return render(request, self.template_name, {
             'form': form,
             'parent_obj': pool,
             'table': node_table,
             'obj_type_plural': 'nodes',
-            'return_url': reverse('plugins:netbox_loadbalancer:f5pool_nodes', kwargs={'pk': pk})
+            'return_url': reverse('plugins:netbox_loadbalancer:LBpool_nodes', kwargs={'pk': pk})
         })
         
 
 
 #
-# F5PoolNode views
+# LBPoolNode views
 #
 
-class F5PoolNodeView(generic.ObjectView):
-    queryset = models.F5PoolNode.objects.all()
+class LBPoolNodeView(generic.ObjectView):
+    queryset = models.LBPoolNode.objects.all()
 
 
-class F5PoolNodeListView(generic.ObjectListView):
-    queryset = models.F5PoolNode.objects.all()
-    table = tables.F5PoolNodeTable
-    filterset = filtersets.F5PoolNodeFilterSet
-    filterset_form = forms.F5PoolNodeFilterForm
+class LBPoolNodeListView(generic.ObjectListView):
+    queryset = models.LBPoolNode.objects.all()
+    table = tables.LBPoolNodeTable
+    filterset = filtersets.LBPoolNodeFilterSet
+    filterset_form = forms.LBPoolNodeFilterForm
 
 
-class F5PoolNodeEditView(generic.ObjectEditView):
-    queryset = models.F5PoolNode.objects.all()
-    form = forms.F5PoolNodeForm
-    template_name = 'netbox_loadbalancer/f5poolnode_edit.html'
+class LBPoolNodeEditView(generic.ObjectEditView):
+    queryset = models.LBPoolNode.objects.all()
+    form = forms.LBPoolNodeForm
+    template_name = 'netbox_loadbalancer/LBpoolnode_edit.html'
 
 
-class F5PoolNodeDeleteView(generic.ObjectDeleteView):
-    queryset = models.F5PoolNode.objects.all()
+class LBPoolNodeDeleteView(generic.ObjectDeleteView):
+    queryset = models.LBPoolNode.objects.all()
     
     
-class F5PoolNodeBulkDeleteView(generic.BulkDeleteView):
-    queryset = models.F5PoolNode.objects.all()
-    filterset = filtersets.F5PoolFilterSet
-    table = tables.F5PoolNodeTable
+class LBPoolNodeBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.LBPoolNode.objects.all()
+    filterset = filtersets.LBPoolFilterSet
+    table = tables.LBPoolNodeTable
