@@ -147,6 +147,8 @@ class LBVirtualServer(NetBoxModel):
     class Meta:
         ordering = ('-pk',)
         unique_together = ('name', 'ip')
+        verbose_name = ('Load Balancer Virtual Server')
+        verbose_name_plural = ('Load Balancer Virtual Servers')
 
     def __str__(self):
         return self.name
@@ -214,6 +216,8 @@ class LBPool(NetBoxModel):
     
     class Meta:
         ordering = ('-pk',)
+        verbose_name = ('Load Balancer Pool')
+        verbose_name_plural = ('Load Balancer Pools')
 
     def __str__(self):
         return f'{self.name} ({self.uri})'
@@ -298,6 +302,8 @@ class LBPoolNode(NetBoxModel):
     
     class Meta:
         ordering = ('-pk',)
+        verbose_name = ('Load Balancer Pool Node')
+        verbose_name_plural = ('Load Balancer Pool Nodes')
         # unique_together = ('name', 'ip')
 
     def __str__(self):
