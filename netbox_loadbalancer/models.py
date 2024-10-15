@@ -74,6 +74,9 @@ class LBCluster(NetBoxModel):
     
     class Meta:
         ordering = ('-pk',)
+        verbose_name = ('Load Balancer Cluster')
+        verbose_name_pkural = ('Load Balancer Clusters')
+
         # unique_together = ('name', 'ip')
 
     def __str__(self):
