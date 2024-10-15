@@ -4,7 +4,7 @@ from netbox.plugins import PluginMenu, PluginMenuButton, PluginMenuItem
 cluster_items = (
      PluginMenuItem(
         link="plugins:netbox_loadbalancer:LBcluster_list",
-        link_text="Cluster",
+        link_text="Clusters",
         buttons=(
             PluginMenuButton(
                 link="plugins:netbox_loadbalancer:LBcluster_add",
@@ -52,6 +52,6 @@ cluster_items = (
 
 menu = PluginMenu(
     label="Load Balancing",
-    groups=(("Load Balancing", cluster_items),),
+    groups=(("LOAD BALANCING", cluster_items),),
     icon_class="mdi mdi-lan",
 )

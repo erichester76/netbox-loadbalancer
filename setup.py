@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='netbox-loadbalancer',
     version='1.0.0',
-    description = 'Manager LoadBalancer with Netbox',
+    description = 'LoadBalancing Management with Netbox',
     author='HuyTM',
     license='Apache 2.0',
     install_requires=[],
